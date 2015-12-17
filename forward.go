@@ -1,10 +1,13 @@
-package TcpForward
+package main
 
 import (
 	"io"
 	"log"
 	"net"
 	"time"
+	"flag"
+"fmt"
+
 )
 
 func New(local, remote string) {
@@ -55,4 +58,17 @@ func outbound(in net.Conn, out net.Conn) {
 		in.Close()
 		out.Close()
 	}
+}
+
+
+func main() {
+	local := flag.String("local","127.0.0.1:9090","源地址local:port")
+	remote := flag.String("remote","127.0.0.1:9191","目标地址remote:port")
+	flag.Parse()
+
+	fmt.Println("local:",*local)
+	fmt.Println("remote:",*remote)
+
+	New(*local,*remote)
+
 }
